@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <title>Honey Spot</title>
+
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/lightslider.css">
+        
+        <style>
+            ul{
+                list-style: none outside none;
+                padding-left: 0;
+                margin: 0;
+            }
+            .demo .item{
+                margin-bottom: 60px;
+            }
+            .content-slider li{
+                background-color: #ed3020;
+                text-align: center;
+                color: #FFF;
+            }
+            .content-slider h3 {
+                margin: 0;
+                padding: 70px 0;
+            }
+        </style>
+    </head>
+    <body>
+
+    <div class="demo">
+        <div class="item">
+            <ul id="content-slider" class="content-slider">
+                <li data-id="#001">
+                    <img src="">
+                    <h3>1</h3>
+                </li>
+                <li data-id="#002">
+                    <img src="">
+                    <h3>2</h3>
+                </li>
+                <li data-id="#003">
+                    <img src="">
+                    <h3>3</h3>
+                </li>
+            </ul>
+        </div>
+
+    </div>  
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/lightslider.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="socket/socket.io.js"></script>
+
+    <script>
+        var socket = io('http://localhost:3000');
+        var connected = false;
+
+        var slider, currentId;
+        var currentState = 1;
+        var timer = 0;
+        var loopState = 'enable';
+
+        $(document).ready(function() {
+            socket.on('gesture swipeleft', (gesture) => {
+                log('Gesture', gesture);
+                navigate();
+                changeStateNext();
+            });
+            socket.on('gesture swiperight', (gesture) => {
+                log('Gesture', gesture);
+                navigate();
+                changeStatePrev();
+            });
+            socket.on('gesture swipeup', (gesture) => {
+                log('Gesture', gesture);
+                navigate();
+                jumpTo(getLastState());
+            });
+            socket.on('gesture swipedown', (gesture) => {
+                log('Gesture', gesture);
+                detailedMode();
+            });
+            socket.on('gesture doubletap', (gesture) => {
+                log('Gesture', gesture);
+            });
+
+            function countDown(time) {
+                resetTimer(timer);
+                timer = setTimeout(enableAutoSlide, time);
+            }
+
+            function resetTimer() {
+                clearTimeout(timer);
+            }
+
+            function disableAutoSlide() {
+                slider.pause();
+                loopState = 'disable';
+                log('LoopState','disable');
+            }
+
+            function enableAutoSlide() {
+                slider.play();
+                loopState = 'enable';
+                log('LoopState','enable');
+            }
+
+            function getCurrentSlide(element) { 
+                var currentSlide = $(element).find('li.active');
+                return currentSlide;
+            }
+            function getCurrentEvent(element) { 
+                currentId = getCurrentSlide(element).data('id');
+                return currentId;
+            }
+
+            function changeStateNext() {
+                slider.goToNextSlide(); 
+            }
+            
+            function changeStatePrev() {
+                slider.goToPrevSlide(); 
+            }
+
+            function keepLastState() {
+                currentState = slider.getCurrentSlideCount();
+                log('KeepState', currentState);
+            }
+
+            function getLastState() {
+                return currentState;
+            }
+
+            function jumpTo(currentState) {
+                slider.goToSlide(currentState);
+                console.log("JumpTo: " + currentState);
+            }
+
+            function navigate(){
+                disableAutoSlide();
+                countDown(5000);
+            }
+
+            function detailedMode(){
+                keepLastState();
+                countDown(2000);
+                socket.emit('detailed mode', currentId);
+            }
+
+            slider = $('#content-slider').lightSlider({
+                item:1,
+                slideMargin:0,
+                loop:true,
+                speed:500,
+                auto:true,
+                pause:10000,
+                controls:false,
+                pager:false,
+                onSliderLoad: function(element) {
+                    currentId = getCurrentEvent(element);
+                    log('CurrentId', currentId);
+
+                    socket.emit('largescreen state', currentId, loopState);
+                },
+                onAfterSlide: function (element) {
+                    currentId = getCurrentEvent(element);
+                    log('CurrentId', currentId);
+                    socket.emit('largescreen state', currentId, loopState);
+                }
+            });
+        });
+    </script>
+    </body>
+</html>
