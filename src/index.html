@@ -1,55 +1,48 @@
 <!doctype html>
 <html lang="en-us">
-    <head>
-        <meta charset="utf-8">
-        <title>Honey Spot</title>
+<head>
+    <meta charset="utf-8">
+    <title>Honey Spot</title>
 
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/lightslider.css">
-        
-        <style>
-            ul{
-                list-style: none outside none;
-                padding-left: 0;
-                margin: 0;
-            }
-            .demo .item{
-                margin-bottom: 60px;
-            }
-            .content-slider li{
-                background-color: #ed3020;
-                text-align: center;
-                color: #FFF;
-            }
-            .content-slider h3 {
-                margin: 0;
-                padding: 70px 0;
-            }
-        </style>
-    </head>
-    <body>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/lightslider.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+
+</head>
+<body>
 
     <div class="demo">
         <div class="item">
             <ul id="content-slider" class="content-slider">
                 <li data-id="#001">
-                    <img src="">
-                    <h3>1</h3>
+                    <img src="img/1.jpg">
+                    <!-- <h3>1</h3> -->
                 </li>
                 <li data-id="#002">
-                    <img src="">
-                    <h3>2</h3>
+                    <img src="img/2.jpg">
+                    <!-- <h3>2</h3> -->
                 </li>
                 <li data-id="#003">
-                    <img src="">
-                    <h3>3</h3>
+                    <img src="img/3.jpg">
+                    <!-- <h3>3</h3> -->
                 </li>
             </ul>
         </div>
-
-    </div>  
+    </div>
+    <div class="container">
+        <div class="row">
+            <p id="save">Save</p>
+            <p id="share">Share</p>
+            <p id="calendar">Add to calendar</p>
+            <p id="feedback"></p>
+        </div>
+    </div>
+    
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/lightslider.min.js"></script>
     <script src="js/main.js"></script>
     <script src="socket/socket.io.js"></script>
@@ -64,27 +57,28 @@
         var loopState = 'enable';
 
         $(document).ready(function() {
-            socket.on('gesture swipeleft', (gesture) => {
-                log('Gesture', gesture);
-                navigate();
+            socket.on('gesture swipeleft', (data) => {
+                log('Gesture', data.gesture);
+                navigate(data);
                 changeStateNext();
             });
-            socket.on('gesture swiperight', (gesture) => {
-                log('Gesture', gesture);
-                navigate();
+            socket.on('gesture swiperight', (data) => {
+                log('Gesture', data.gesture);
+                navigate(data);
                 changeStatePrev();
             });
-            socket.on('gesture swipeup', (gesture) => {
-                log('Gesture', gesture);
-                navigate();
+            socket.on('gesture swipeup', (data) => {
+                log('Gesture', data.gesture);
+                navigate(data);
                 jumpTo(getLastState());
             });
-            socket.on('gesture swipedown', (gesture) => {
-                log('Gesture', gesture);
-                detailedMode();
+            socket.on('gesture swipedown', (data) => {
+                log('Gesture', data.gesture);
+                detailedMode(data);
             });
-            socket.on('gesture doubletap', (gesture) => {
-                log('Gesture', gesture);
+            socket.on('gesture doubletap', (data) => {
+                log('Gesture', data.gesture);
+                save(data);
             });
 
             function countDown(time) {
@@ -144,10 +138,22 @@
                 countDown(5000);
             }
 
-            function detailedMode(){
+            function detailedMode(data){
+                var message = { 
+                    'uid': data.uid,
+                    'currentId': currentId
+                };
                 keepLastState();
                 countDown(2000);
-                socket.emit('detailed mode', currentId);
+                socket.emit('detailed mode', message);
+            }
+
+            function save(data){
+                var message = { 
+                    'uid': data.uid,
+                    'currentId': currentId
+                };
+                socket.emit('saved', message);
             }
 
             slider = $('#content-slider').lightSlider({
@@ -173,5 +179,5 @@
             });
         });
     </script>
-    </body>
+</body>
 </html>
