@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/lightslider.css">
+    <link rel="stylesheet" href="/material/fonts/material-icons.css">
     <link rel="stylesheet" href="css/stylesheet.css">
 
 </head>
@@ -17,26 +18,66 @@
         <div class="item">
             <ul id="content-slider" class="content-slider">
                 <li data-id="#001">
-                    <img src="img/1.jpg">
+                    <img data-category="Competition" src="img/1.jpg">
                     <!-- <h3>1</h3> -->
                 </li>
                 <li data-id="#002">
-                    <img src="img/2.jpg">
+                    <img data-category="Camp" src="img/2.jpg">
                     <!-- <h3>2</h3> -->
                 </li>
                 <li data-id="#003">
-                    <img src="img/3.jpg">
+                    <img data-category="Keynote" src="img/3.jpg">
                     <!-- <h3>3</h3> -->
                 </li>
             </ul>
         </div>
+        <button id="prev" type="button" class="btn btn-default">Prev</button>
+        <button id="next" type="button" class="btn btn-default">Next</button>
+
+        <div id="feedbackModal" class="modal fade" data-backdrop="false">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <i id="feedbackIcon" class="material-icons md-128"></i>
+                <p id="feedbackAction"></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div> 
     </div>
-    <div class="container">
+
+
+    <div class="container-fluid">
         <div class="row">
-            <p id="save">Save</p>
-            <p id="share">Share</p>
-            <p id="calendar">Add to calendar</p>
-            <p id="feedback"></p>
+            <div class="col-md-6">
+                <div class="category">
+                    <button type="button" class="btn btn-default btn-lg btn-tag">
+                        <p id="tag"></p>
+                    </button> 
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="actions">
+                    <div>
+                        <button type="button" id="calendar" class="btn btn-default btn-lg btn-round">
+                          <i class="material-icons md-128">bookmark</i>
+                        </button> 
+                    </div>
+                    <div>
+                        <button type="button" id="calendar" class="btn btn-default btn-lg btn-round">
+                          <i class="material-icons md-128">share</i>
+                        </button> 
+                    </div>
+                    <div>
+                        <button type="button" id="calendar" class="btn btn-default btn-lg btn-round">
+                          <i class="material-icons md-128">event_note</i>
+                        </button> 
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -51,42 +92,90 @@
         var socket = io('http://localhost:3000');
         var connected = false;
 
-        var slider, currentId;
+        var slider, currentId,category,tag;
         var currentState = 1;
-        var timer = 0;
+        var timerSlide,timerFeedback = 0;
         var loopState = 'enable';
 
         $(document).ready(function() {
-            socket.on('gesture swipeleft', (data) => {
-                log('Gesture', data.gesture);
-                navigate(data);
+            socket.on('gesture swipeleft', (gesture) => {
+                log('Gesture', gesture);
+                navigate();
                 changeStateNext();
             });
-            socket.on('gesture swiperight', (data) => {
-                log('Gesture', data.gesture);
-                navigate(data);
+            socket.on('gesture swiperight', (gesture) => {
+                log('Gesture', gesture);
+                navigate();
                 changeStatePrev();
             });
-            socket.on('gesture swipeup', (data) => {
-                log('Gesture', data.gesture);
-                navigate(data);
+            socket.on('gesture swipeup', (gesture) => {
+                log('Gesture', gesture);
+                navigate();
                 jumpTo(getLastState());
             });
-            socket.on('gesture swipedown', (data) => {
-                log('Gesture', data.gesture);
-                detailedMode(data);
+            socket.on('gesture swipedown', (gesture) => {
+                log('Gesture', gesture);
+                showFeedback('perm_device_information','Swipe Down');
+                detailedMode();
             });
-            socket.on('gesture doubletap', (data) => {
-                log('Gesture', data.gesture);
-                save(data);
+            socket.on('gesture doubletap', (gesture) => {
+                log('Gesture', gesture);
+                showFeedback('bookmark','Saved');
+            });
+            socket.on('bookmarked', (state) => {
+                log('Bookmark', state);
+                showFeedback('bookmark','Saved');
+            });
+            socket.on('unbookmarked', (state) => {
+                log('Bookmark', state);
+                showFeedback('bookmark_border','Unsaved');
+            });
+            socket.on('share', (state) => {
+                log('Share', state);
+                showFeedback('share','Shared');
+            });
+            socket.on('calendar', (state) => {
+                log('Share', state);
+                showFeedback('event_note','Add to calendar');
             });
 
-            function countDown(time) {
-                resetTimer(timer);
-                timer = setTimeout(enableAutoSlide, time);
+            function countDownfeedBack(time) {
+                resetTimer(timerFeedback);
+                timerFeedback = setTimeout(hideFeedback, time);
             }
 
-            function resetTimer() {
+            function showFeedback(icon,action) {
+                $('#feedbackIcon').text(icon);
+                $('#feedbackAction').text(action);
+                $('#feedbackModal').modal('show');
+                countDownfeedBack(2500);
+            }
+
+            function hideFeedback(){
+                $('#feedbackModal').modal('hide');
+            }
+
+            function showTag(element) {
+                let category = getCurrentSlide(element).find('img').data('category');
+                $('#tag').text(category);
+                console.log(category);
+            }
+            
+            $('#next').on('click', function (e) {
+                slider.goToNextSlide();
+                $('#feedbackModal').modal('show');
+                countDownfeedBack(2500);
+            })
+            $('#prev').on('click', function (e) {
+                slider.goToPrevSlide();
+            })
+
+            function countDownautoSlide(time) {
+                resetTimer(timerSlide);
+                timerSlide = setTimeout(enableAutoSlide, time);
+            }
+
+            function resetTimer(timer) {
                 clearTimeout(timer);
             }
 
@@ -135,25 +224,14 @@
 
             function navigate(){
                 disableAutoSlide();
-                countDown(5000);
+                countDownautoSlide(5000);
             }
 
-            function detailedMode(data){
-                var message = { 
-                    'uid': data.uid,
-                    'currentId': currentId
-                };
+            function detailedMode(){
                 keepLastState();
-                countDown(2000);
-                socket.emit('detailed mode', message);
-            }
-
-            function save(data){
-                var message = { 
-                    'uid': data.uid,
-                    'currentId': currentId
-                };
-                socket.emit('saved', message);
+                socket.emit('detailed mode', currentId);
+                countDownautoSlide(2000);
+                
             }
 
             slider = $('#content-slider').lightSlider({
@@ -167,14 +245,17 @@
                 pager:false,
                 onSliderLoad: function(element) {
                     currentId = getCurrentEvent(element);
-                    log('CurrentId', currentId);
-
+                    log('CurrentId-load', currentId);
                     socket.emit('largescreen state', currentId, loopState);
+
+                    showTag(element);
                 },
                 onAfterSlide: function (element) {
                     currentId = getCurrentEvent(element);
-                    log('CurrentId', currentId);
+                    log('CurrentId-after', currentId);
                     socket.emit('largescreen state', currentId, loopState);
+                    
+                    showTag(element);
                 }
             });
         });
