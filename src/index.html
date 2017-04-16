@@ -79,12 +79,17 @@
                 </div>
             </div>
         </div>
+        
     </div>
     
+    <div class="row">
+        <div id="qrcode" style="width: 500px; height:500px;"></div>
+    </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/lightslider.min.js"></script>
+    <script src="js/qrcode.min.js"></script>
     <script src="js/main.js"></script>
     <script src="socket/socket.io.js"></script>
 
@@ -96,6 +101,11 @@
         var currentState = 1;
         var timerSlide,timerFeedback = 0;
         var loopState = 'enable';
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width : 500,
+            height : 500,
+            correctLevel : QRCode.CorrectLevel.H
+        });
 
         $(document).ready(function() {
             socket.on('gesture swipeleft', (gesture) => {
@@ -115,7 +125,7 @@
             });
             socket.on('gesture swipedown', (gesture) => {
                 log('Gesture', gesture);
-                showFeedback('perm_device_information','Swipe Down');
+                showFeedback('perm_device_information','Read more details on your mobile device.');
                 detailedMode();
             });
             socket.on('gesture doubletap', (gesture) => {
@@ -138,6 +148,12 @@
                 log('Share', state);
                 showFeedback('event_note','Add to calendar');
             });
+
+            function generateQR(url) {
+                qrcode.makeCode(url);
+            }
+
+            generateQR("https://www.google.co.th");
 
             function countDownfeedBack(time) {
                 resetTimer(timerFeedback);
@@ -163,8 +179,6 @@
             
             $('#next').on('click', function (e) {
                 slider.goToNextSlide();
-                $('#feedbackModal').modal('show');
-                countDownfeedBack(2500);
             })
             $('#prev').on('click', function (e) {
                 slider.goToPrevSlide();
@@ -229,7 +243,6 @@
 
             function detailedMode(){
                 keepLastState();
-                socket.emit('detailed mode', currentId);
                 countDownautoSlide(2000);
                 
             }
