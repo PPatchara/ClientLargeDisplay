@@ -32,12 +32,6 @@
     left:0px;
     z-index:2;
 }
-#qrcode {
-    position: absolute;
-    top:0px;
-    left:0px;
-    z-index: 3;
-}
 
 img {
     width:100%;

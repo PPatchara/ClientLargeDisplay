@@ -83,7 +83,19 @@
     </div>
     
     <div class="row">
-        <div id="qrcode" style="width: 500px; height:500px;"></div>
+        
+        <div id="qrcodeModal" class="modal fade" data-backdrop="false">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <div id="qrcode"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div> 
     </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -151,6 +163,7 @@
 
             function generateQR(url) {
                 qrcode.makeCode(url);
+                $('#qrcodeModal').modal('show');
             }
 
             generateQR("https://www.google.co.th");
