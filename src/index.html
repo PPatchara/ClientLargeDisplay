@@ -160,6 +160,11 @@
                 log('Share', state);
                 showFeedback('event_note','Add to calendar');
             });
+            socket.on('key verify', (data) => {
+                if(data == 'verified') {
+                    $('#qrcodeModal').modal('hide');
+                }
+            });
 
             function generateQR(url) {
                 qrcode.makeCode(url);
