@@ -112,7 +112,7 @@
         var slider, currentId,category,tag;
         var currentState = 1;
         var timerSlide,timerFeedback = 0;
-        var loopState = 'enable';
+        var loopState = 'play';
         var qrcode = new QRCode(document.getElementById("qrcode"), {
             width : 500,
             height : 500,
@@ -140,7 +140,11 @@
                 showFeedback('perm_device_information','Read more details on your mobile device.');
                 detailedMode();
             });
-            socket.on('gesture doubletap', (gesture) => {
+            socket.on('gesture press', (gesture) => {
+                log('Gesture', gesture);
+                showFeedback('bookmark','Saved');
+            });
+            socket.on('gesture tap', (gesture) => {
                 log('Gesture', gesture);
                 showFeedback('bookmark','Saved');
             });
@@ -160,10 +164,13 @@
                 log('Share', state);
                 showFeedback('event_note','Add to calendar');
             });
-            socket.on('key verify', (data) => {
-                if(data == 'verified') {
-                    $('#qrcodeModal').modal('hide');
+            socket.on('joined', (message) => {
+                if (message.isNewUser) {
+                    
                 }
+                loopState = 'pause'
+                pauseAutoSlide();
+                $('#qrcodeModal').modal('hide');
             });
 
             function generateQR(url) {
@@ -171,7 +178,7 @@
                 $('#qrcodeModal').modal('show');
             }
 
-            generateQR("https://www.google.co.th");
+            generateQR("http://10.50.8.13:3000/1234");
 
             function countDownfeedBack(time) {
                 resetTimer(timerFeedback);
@@ -204,23 +211,23 @@
 
             function countDownautoSlide(time) {
                 resetTimer(timerSlide);
-                timerSlide = setTimeout(enableAutoSlide, time);
+                timerSlide = setTimeout(playAutoSlide, time);
             }
 
             function resetTimer(timer) {
                 clearTimeout(timer);
             }
 
-            function disableAutoSlide() {
+            function pauseAutoSlide() {
                 slider.pause();
-                loopState = 'disable';
-                log('LoopState','disable');
+                loopState = 'pause';
+                log('LoopState','pause');
             }
 
-            function enableAutoSlide() {
+            function playAutoSlide() {
                 slider.play();
-                loopState = 'enable';
-                log('LoopState','enable');
+                loopState = 'play';
+                log('LoopState','play');
             }
 
             function getCurrentSlide(element) { 
@@ -255,13 +262,13 @@
             }
 
             function navigate(){
-                disableAutoSlide();
+                pauseAutoSlide();
                 countDownautoSlide(5000);
             }
 
             function detailedMode(){
                 keepLastState();
-                countDownautoSlide(2000);
+                countDownautoSlide(5000);
                 
             }
 
