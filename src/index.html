@@ -41,9 +41,9 @@
                 <i id="feedbackIcon" class="material-icons md-128"></i>
                 <p id="feedbackAction"></p>
               </div>
-              <div class="modal-footer">
+<!--               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div> 
@@ -90,9 +90,9 @@
               <div class="modal-body">
                 <div id="qrcode"></div>
               </div>
-              <div class="modal-footer">
+<!--               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div> 
@@ -148,6 +148,18 @@
                 log('Gesture', gesture);
                 showFeedback('bookmark','Saved');
             });
+            socket.on('toggle play', (toggleState) => {
+                loopState = 'play';
+                playAutoSlide();
+                log('toggle play',toggleState);
+                showFeedback('play_arrow','Play');
+            });
+            socket.on('toggle pause', (toggleState) => {
+                loopState = 'pause';
+                pauseAutoSlide();
+                log('toggle pause',toggleState);
+                showFeedback('pause','Pause');
+            });
             socket.on('bookmarked', (state) => {
                 log('Bookmark', state);
                 showFeedback('bookmark','Saved');
@@ -166,7 +178,7 @@
             });
             socket.on('joined', (message) => {
                 if (message.isNewUser) {
-                    
+
                 }
                 loopState = 'pause'
                 pauseAutoSlide();
