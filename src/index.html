@@ -142,11 +142,10 @@
             });
             socket.on('gesture press', (gesture) => {
                 log('Gesture', gesture);
-                showFeedback('bookmark','Saved');
+                showFeedback('bookmark','Bookmarked');
             });
             socket.on('gesture tap', (gesture) => {
                 log('Gesture', gesture);
-                showFeedback('bookmark','Saved');
             });
             socket.on('toggle play', (toggleState) => {
                 loopState = 'play';
@@ -162,11 +161,11 @@
             });
             socket.on('bookmarked', (state) => {
                 log('Bookmark', state);
-                showFeedback('bookmark','Saved');
+                showFeedback('bookmark','Bookmarked');
             });
             socket.on('unbookmarked', (state) => {
                 log('Bookmark', state);
-                showFeedback('bookmark_border','Unsaved');
+                showFeedback('bookmark_border','Unbookmarked');
             });
             socket.on('share', (state) => {
                 log('Share', state);
@@ -176,7 +175,7 @@
                 log('Share', state);
                 showFeedback('event_note','Add to calendar');
             });
-            socket.on('joined', (message) => {
+            socket.on('joined display', (message) => {
                 if (message.isNewUser) {
 
                 }
