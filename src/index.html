@@ -130,12 +130,12 @@
                 navigate();
                 changeStatePrev();
             });
-            socket.on('gesture swipeup', (gesture) => {
+            socket.on('gesture swipedown', (gesture) => {
                 log('Gesture', gesture);
                 navigate();
                 jumpTo(getLastState());
             });
-            socket.on('gesture swipedown', (gesture) => {
+            socket.on('gesture swipeup', (gesture) => {
                 log('Gesture', gesture);
                 showFeedback('perm_device_information','Read more details on your mobile device.');
                 detailedMode();
