@@ -19,15 +19,12 @@
             <ul id="content-slider" class="content-slider">
                 <li data-id="#001">
                     <img data-category="Competition" src="img/1.jpg">
-                    <!-- <h3>1</h3> -->
                 </li>
                 <li data-id="#002">
                     <img data-category="Camp" src="img/2.jpg">
-                    <!-- <h3>2</h3> -->
                 </li>
                 <li data-id="#003">
                     <img data-category="Keynote" src="img/3.jpg">
-                    <!-- <h3>3</h3> -->
                 </li>
             </ul>
         </div>
@@ -71,11 +68,11 @@
                           <i class="material-icons md-128">share</i>
                         </button> 
                     </div>
-                    <div>
+<!--                     <div>
                         <button type="button" id="calendar" class="btn btn-default btn-lg btn-round">
                           <i class="material-icons md-128">event_note</i>
                         </button> 
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -150,13 +147,11 @@
             socket.on('toggle play', (toggleState) => {
                 loopState = 'play';
                 playAutoSlide();
-                log('toggle play',toggleState);
                 showFeedback('play_arrow','Play');
             });
             socket.on('toggle pause', (toggleState) => {
                 loopState = 'pause';
                 pauseAutoSlide();
-                log('toggle pause',toggleState);
                 showFeedback('pause','Pause');
             });
             socket.on('bookmarked', (state) => {
@@ -201,6 +196,15 @@
                 $('#feedbackAction').text(action);
                 $('#feedbackModal').modal('show');
                 countDownfeedBack(2500);
+                console.log(action);
+                if (action == 'Pause') {
+                    socket.emit('toggle paused');
+                    console.log('Paused');
+                } else {
+                    socket.emit('toggle played');
+                    console.log('Played');
+                }
+
             }
 
             function hideFeedback(){
