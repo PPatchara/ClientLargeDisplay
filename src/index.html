@@ -18,18 +18,18 @@
         <div class="item">
             <ul id="content-slider" class="content-slider">
                 <li data-id="#001">
-                    <img data-category="Competition" src="img/1.jpg">
+                    <img data-category="Competition" src="img/1.jpg" class="slide-img">
                 </li>
                 <li data-id="#002">
-                    <img data-category="Camp" src="img/2.jpg">
+                    <img data-category="Camp" src="img/2.jpg" class="slide-img">
                 </li>
                 <li data-id="#003">
-                    <img data-category="Keynote" src="img/3.jpg">
+                    <img data-category="Keynote Talk" src="img/3.jpg" class="slide-img">
                 </li>
             </ul>
         </div>
-        <button id="prev" type="button" class="btn btn-default">Prev</button>
-        <button id="next" type="button" class="btn btn-default">Next</button>
+<!--         <button id="prev" type="button" class="btn btn-default">Prev</button>
+        <button id="next" type="button" class="btn btn-default">Next</button> -->
 
         <div id="feedbackModal" class="modal fade" data-backdrop="false">
           <div class="modal-dialog" role="document">
@@ -51,41 +51,31 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="category">
-                    <button type="button" class="btn btn-default btn-lg btn-tag">
-                        <p id="tag"></p>
-                    </button> 
+                    <p id="tag" style="color: #ffffff"></p>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="actions">
                     <div>
-                        <button type="button" id="calendar" class="btn btn-default btn-lg btn-round">
-                          <i class="material-icons md-128">bookmark</i>
-                        </button> 
+                        <i class="material-icons md-64 action-icon white">bookmark</i>
                     </div>
                     <div>
-                        <button type="button" id="calendar" class="btn btn-default btn-lg btn-round">
-                          <i class="material-icons md-128">share</i>
-                        </button> 
+                        <i class="material-icons md-64 action-icon white">share</i>
                     </div>
-<!--                     <div>
-                        <button type="button" id="calendar" class="btn btn-default btn-lg btn-round">
-                          <i class="material-icons md-128">event_note</i>
-                        </button> 
-                    </div> -->
                 </div>
             </div>
         </div>
         
     </div>
     
-    <div class="row">
-        
+    <div class="row">    
         <div id="qrcodeModal" class="modal fade" data-backdrop="false">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-body">
-                <div id="qrcode"></div>
+                <div id="qrcode">
+                    
+                </div>
               </div>
 <!--               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -111,8 +101,8 @@
         var timerSlide,timerFeedback = 0;
         var loopState = 'play';
         var qrcode = new QRCode(document.getElementById("qrcode"), {
-            width : 500,
-            height : 500,
+            width : 250,
+            height : 250,
             correctLevel : QRCode.CorrectLevel.H
         });
 
