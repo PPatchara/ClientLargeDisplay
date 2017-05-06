@@ -50,7 +50,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
-                <div class="category">
+                <div class="tag">
                     <p id="tag" style="color: #ffffff"></p>
                 </div>
             </div>
@@ -65,7 +65,18 @@
                 </div>
             </div>
         </div>
-        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="play-pause">
+                    <div>
+                        <i id="playerIcon" class="material-icons md-128 action-icon white"></i>
+                    </div>
+<!--                     <div id="pause">
+                        <i class="material-icons md-128 action-icon white">pause</i>
+                    </div> -->
+                </div>
+            </div>
+        </div>
     </div>
     
     <div class="row">    
@@ -73,9 +84,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-body">
-                <div id="qrcode">
-                    
-                </div>
+                <div id="qrcode"></div>
               </div>
 <!--               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -107,6 +116,8 @@
         });
 
         $(document).ready(function() {
+            $('#playerIcon').hide();
+
             socket.on('gesture swipeleft', (gesture) => {
                 log('Gesture', gesture);
                 navigate();
@@ -137,12 +148,15 @@
             socket.on('toggle play', (toggleState) => {
                 loopState = 'play';
                 playAutoSlide();
-                showFeedback('play_arrow','Play');
+                showPlayerFeedback('pause','Play');
+                //showFeedback('play_arrow','Play');
             });
             socket.on('toggle pause', (toggleState) => {
                 loopState = 'pause';
                 pauseAutoSlide();
-                showFeedback('pause','Pause');
+                showPlayerFeedback('play_arrow','Pause');
+                //showFeedback('pause','Pause');
+
             });
             socket.on('bookmarked', (state) => {
                 log('Bookmark', state);
@@ -175,6 +189,32 @@
             }
 
             generateQR("http://10.50.8.13:3000/1234");
+
+            function countDownPlayerFeedback(time) {
+                resetTimer(timerFeedback);
+                timerFeedback = setTimeout(hidePlayerFeedback, time);
+            }
+
+            function showPlayerFeedback(icon,action) {
+                console.log(action);
+                if (action == 'Pause') {
+                    $('#playerIcon').text(icon);
+                    $('#playerIcon').show();
+                    socket.emit('toggle paused');
+                    console.log('Paused');
+                } else if (action == 'Play') {
+                    $('#playerIcon').text(icon);
+                    $('#playerIcon').show();
+                    countDownPlayerFeedback(2500);
+                    socket.emit('toggle played');
+                    console.log('Played');
+                }
+
+            }
+
+            function hidePlayerFeedback(){
+                $('#playerIcon').hide();
+            }
 
             function countDownfeedBack(time) {
                 resetTimer(timerFeedback);

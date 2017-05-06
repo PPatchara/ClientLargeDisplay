@@ -25,15 +25,19 @@
 .actions {
     position: absolute;
     top:-1800px;
-/*    top:-2000px;*/
     right:20px;
     z-index:2;
 }
-.category {
+.tag {
     position: absolute;
     top:-1800px;
-/*    top:-2000px;*/
     left:0px;
+    z-index:2;
+}
+.play-pause {
+    position: absolute;
+    top:-1000px;
+    left:500px;
     z-index:2;
 }
 
@@ -54,13 +58,14 @@
     background-color: rgba(0, 0, 0, 0.4);
     padding: 10px;
     margin-bottom: 10px;
-    border-radius: 50px;
+    border-radius: 80px;
 }
 
 #feedbackAction {
     font-size: 48px;
     font-weight: bold;
 }
+
 
 /* Font icons*/
 .material-icons.active { 
