@@ -28,8 +28,6 @@
                 </li>
             </ul>
         </div>
-<!--         <button id="prev" type="button" class="btn btn-default">Prev</button>
-        <button id="next" type="button" class="btn btn-default">Next</button> -->
 
         <div id="feedbackModal" class="modal fade" data-backdrop="false">
           <div class="modal-dialog" role="document">
@@ -38,9 +36,6 @@
                 <i id="feedbackIcon" class="material-icons md-128"></i>
                 <p id="feedbackAction"></p>
               </div>
-<!--               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div> -->
             </div>
           </div>
         </div> 
@@ -49,11 +44,11 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6">
+<!--             <div class="col-md-6">
                 <div class="tag">
                     <p id="tag" style="color: #ffffff"></p>
                 </div>
-            </div>
+            </div> -->
             <div class="col-md-6">
                 <div class="actions">
                     <div>
@@ -68,12 +63,24 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="play-pause">
+                    <i id="playerIcon" class="material-icons md-128 action-icon white"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="popupTutorial" class="tutorial">
+                    <h1 style="color: #ffffff;">Let's play with us</h1>
+                    <img src="img/tutorial.png">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="overlaySwipeDown" class="overlay">
                     <div>
-                        <i id="playerIcon" class="material-icons md-128 action-icon white"></i>
+                        <img src="img/swipeDown.png"><span style="font-size: 28px; color: #ffffff;">&nbsp;&nbsp;&nbsp;&nbsp;Swipe down to return to action</span>
                     </div>
-<!--                     <div id="pause">
-                        <i class="material-icons md-128 action-icon white">pause</i>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -86,9 +93,6 @@
               <div class="modal-body">
                 <div id="qrcode"></div>
               </div>
-<!--               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div> -->
             </div>
           </div>
         </div> 
@@ -116,7 +120,13 @@
         });
 
         $(document).ready(function() {
-            $('#playerIcon').hide();
+            hideElements();
+
+            socket.on('popup tutorial', (data) => {
+                if (data == 'closed') {
+                    $('#popupTutorial').hide();
+                }
+            });
 
             socket.on('gesture swipeleft', (gesture) => {
                 log('Gesture', gesture);
@@ -132,11 +142,13 @@
                 log('Gesture', gesture);
                 navigate();
                 jumpTo(getLastState());
+                $('#overlaySwipeDown').hide();
             });
             socket.on('gesture swipeup', (gesture) => {
                 log('Gesture', gesture);
                 showFeedback('perm_device_information','Read more details on your mobile device.');
                 detailedMode();
+                $('#overlaySwipeDown').show();
             });
             socket.on('gesture press', (gesture) => {
                 log('Gesture', gesture);
@@ -149,14 +161,11 @@
                 loopState = 'play';
                 playAutoSlide();
                 showPlayerFeedback('pause','Play');
-                //showFeedback('play_arrow','Play');
             });
             socket.on('toggle pause', (toggleState) => {
                 loopState = 'pause';
                 pauseAutoSlide();
                 showPlayerFeedback('play_arrow','Pause');
-                //showFeedback('pause','Pause');
-
             });
             socket.on('bookmarked', (state) => {
                 log('Bookmark', state);
@@ -175,13 +184,20 @@
                 showFeedback('event_note','Add to calendar');
             });
             socket.on('joined display', (message) => {
-                if (message.isNewUser) {
-
-                }
                 loopState = 'pause'
                 pauseAutoSlide();
+                showPlayerFeedback('play_arrow','Pause');
                 $('#qrcodeModal').modal('hide');
+                if (message.isNewUser) {
+                    $('#popupTutorial').show();
+                }
             });
+
+            function hideElements() {
+               $('#popupTutorial').hide();
+                $('#playerIcon').hide();
+                $('#overlaySwipeDown').hide();
+            }
 
             function generateQR(url) {
                 qrcode.makeCode(url);
@@ -190,10 +206,6 @@
 
             generateQR("http://10.50.8.13:3000/1234");
 
-            function countDownPlayerFeedback(time) {
-                resetTimer(timerFeedback);
-                timerFeedback = setTimeout(hidePlayerFeedback, time);
-            }
 
             function showPlayerFeedback(icon,action) {
                 console.log(action);
@@ -212,15 +224,6 @@
 
             }
 
-            function hidePlayerFeedback(){
-                $('#playerIcon').hide();
-            }
-
-            function countDownfeedBack(time) {
-                resetTimer(timerFeedback);
-                timerFeedback = setTimeout(hideFeedback, time);
-            }
-
             function showFeedback(icon,action) {
                 $('#feedbackIcon').text(icon);
                 $('#feedbackAction').text(action);
@@ -235,6 +238,21 @@
                     console.log('Played');
                 }
 
+            }
+
+            function countDownPlayerFeedback(time) {
+                resetTimer(timerFeedback);
+                timerFeedback = setTimeout(hidePlayerFeedback, time);
+            }
+
+
+            function countDownfeedBack(time) {
+                resetTimer(timerFeedback);
+                timerFeedback = setTimeout(hideFeedback, time);
+            }
+
+            function hidePlayerFeedback(){
+                $('#playerIcon').hide();
             }
 
             function hideFeedback(){

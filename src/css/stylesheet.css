@@ -15,9 +15,6 @@
     margin: 0;
     padding: 70px 0;
 }*/
-.modal {
-
-}
 
 .demo {
     z-index: 1;
@@ -25,9 +22,16 @@
 .actions {
     position: absolute;
     top:-1800px;
-    right:20px;
+    left:980px;
     z-index:2;
 }
+/*With tag*/
+/*.actions {
+    position: absolute;
+    top:-1800px;
+    right:20px;
+    z-index:2;
+}*/
 .tag {
     position: absolute;
     top:-1800px;
@@ -36,14 +40,34 @@
 }
 .play-pause {
     position: absolute;
-    top:-1000px;
-    left:500px;
+    top:-1250px;
+    left:420px;
     z-index:2;
+}
+.tutorial {
+    position: absolute;
+    top:-1500px;
+    left:180px;
+    z-index:2;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+}
+.overlay {
+    width: 1080px;
+    height: 70px;
+    position: absolute;
+    top: -1925px;
+    left: 0px;
+    z-index:2;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 10px;
 }
 
 .slide-img {
     width: 1080px; 
-    height: 1850px;
+    height: 1920px;
 }
 
 #tag {
