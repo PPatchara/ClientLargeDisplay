@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head>
     <meta charset="utf-8">
-    <title>Honey Spot</title>
+    <title>Pokie</title>
 
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
@@ -132,11 +132,13 @@
                 log('Gesture', gesture);
                 navigate();
                 changeStateNext();
+                $('#playerIcon').hide();
             });
             socket.on('gesture swiperight', (gesture) => {
                 log('Gesture', gesture);
                 navigate();
                 changeStatePrev();
+                $('#playerIcon').hide();
             });
             socket.on('gesture swipedown', (gesture) => {
                 log('Gesture', gesture);
@@ -148,10 +150,12 @@
                 log('Gesture', gesture);
                 showFeedback('perm_device_information','Read more details on your mobile device.');
                 detailedMode();
+                $('#playerIcon').hide();
                 $('#overlaySwipeDown').show();
             });
             socket.on('gesture press', (gesture) => {
                 log('Gesture', gesture);
+                $('#playerIcon').hide();
                 showFeedback('bookmark','Bookmarked');
             });
             socket.on('gesture tap', (gesture) => {
@@ -179,11 +183,13 @@
                 log('Share', state);
                 showFeedback('share','Shared');
             });
-            socket.on('calendar', (state) => {
+/*            socket.on('calendar', (state) => {
                 log('Share', state);
                 showFeedback('event_note','Add to calendar');
             });
+*/
             socket.on('joined display', (message) => {
+                hideElements();
                 loopState = 'pause'
                 pauseAutoSlide();
                 showPlayerFeedback('play_arrow','Pause');
@@ -194,7 +200,7 @@
             });
 
             function hideElements() {
-               $('#popupTutorial').hide();
+                $('#popupTutorial').hide();
                 $('#playerIcon').hide();
                 $('#overlaySwipeDown').hide();
             }
@@ -230,14 +236,6 @@
                 $('#feedbackModal').modal('show');
                 countDownfeedBack(2500);
                 console.log(action);
-                if (action == 'Pause') {
-                    socket.emit('toggle paused');
-                    console.log('Paused');
-                } else {
-                    socket.emit('toggle played');
-                    console.log('Played');
-                }
-
             }
 
             function countDownPlayerFeedback(time) {
