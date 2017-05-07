@@ -150,12 +150,10 @@
                 log('Gesture', gesture);
                 showFeedback('perm_device_information','Read more details on your mobile device.');
                 detailedMode();
-                $('#playerIcon').hide();
                 $('#overlaySwipeDown').show();
             });
             socket.on('gesture press', (gesture) => {
                 log('Gesture', gesture);
-                $('#playerIcon').hide();
                 showFeedback('bookmark','Bookmarked');
             });
             socket.on('gesture tap', (gesture) => {
