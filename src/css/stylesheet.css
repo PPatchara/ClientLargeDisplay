@@ -41,7 +41,7 @@
 .play-pause {
     position: absolute;
     top:-1250px;
-    left:420px;
+    left:470px;
     z-index:2;
 }
 .tutorial {
