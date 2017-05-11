@@ -54,6 +54,19 @@
     border-radius: 20px;
     text-align: center;
 }
+.feedback {
+    width: 450px;
+    height: 220px;
+    position: absolute;
+    top:-1500px;
+    left:180px;
+    z-index:2;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+    color: #ffffff;
+}
 .overlay {
     width: 1080px;
     height: 70px;
@@ -68,6 +81,10 @@
 .slide-img {
     width: 1080px; 
     height: 1920px;
+}
+#renewCode {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #007aff;
 }
 
 #tag {
@@ -89,6 +106,34 @@
     font-size: 48px;
     font-weight: bold;
 }
+
+.overlay-footer {
+    width: 1080px;
+    height: 70px;
+    position: absolute;
+    bottom: 0px;
+    z-index:2;
+    background-color: #ffffff;
+}
+
+.overlay-qr {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    bottom: 0px;
+    right:150px;
+    z-index:2;
+    background-color: #ffffff;
+    border-radius: 80px 0px 0px 0px;
+}
+
+#qrcode {
+    position: absolute;
+    bottom: 30px;
+    right:100px;
+    z-index:3;
+}
+
 
 
 /* Font icons*/

@@ -84,9 +84,44 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="popupRenew" class="feedback">
+                    <h3>Renew Code</h3>
+                    <h1 id="renewCode"></h1>
+                    <p>Renew code will expire in 30 seconds.</p>
+                    <h4>Please enter the renew code into the smartphone to renew your connection.</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="popupConTimeOut" class="feedback">
+                    <h3>Connection Time Out</h3>
+                    <i class="material-icons md-64">phonelink_erase</i>
+                    <h4>If want to to control the display</h4>
+                    <h4>please connect again.</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="overlayInstruc" class="overlay-footer">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="overlayQR" class="overlay-qr">
+                <h3>SCAN ME</h3>
+                <p>to control</p>
+                <div id="qrcode"></div>
+            </div>
+        </div>
     </div>
     
-    <div class="row">    
+<!--     <div class="row">    
         <div id="qrcodeModal" class="modal fade" data-backdrop="false">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -96,7 +131,7 @@
             </div>
           </div>
         </div> 
-    </div>
+    </div> -->
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -114,8 +149,8 @@
         var timerSlide,timerFeedback = 0;
         var loopState = 'play';
         var qrcode = new QRCode(document.getElementById("qrcode"), {
-            width : 250,
-            height : 250,
+            width : 120,
+            height : 120,
             correctLevel : QRCode.CorrectLevel.H
         });
 
@@ -125,11 +160,41 @@
             }
             sendJoinToServer();
             hideElements();
+            
+            socket.on('joined display', (message) => {
+                loopState = 'pause'
+                pauseAutoSlide();
+                showPlayerFeedback('play_arrow','Pause');
+                $('#qrcodeModal').modal('hide');
+                if (message.isNewUser) {
+                    $('#popupTutorial').show();
+                }
+            });
 
             socket.on('Generate Key', (key) => {
                 var url = `http://10.50.8.14:3000/${key}`;
                 console.log(url);
                 generateQR(url);
+            });
+
+            socket.on('renew code', (code) => {
+                $('#renewCode').text(code);
+                $('#popupRenew').show();
+            });
+
+            socket.on('renew verified', (data) => {
+                if (data) {
+                    $('#popupRenew').hide();
+                }else if (data == 'cancel') {
+                    $('#popupRenew').hide();
+                }
+            });
+
+            socket.on('connection status display', (status) => {
+                if (status == 'inactive') {
+                    hideElements();
+                    $('#popupConTimeOut').show();
+                }
             });
 
             socket.on('popup tutorial', (data) => {
@@ -196,21 +261,13 @@
                 showFeedback('event_note','Add to calendar');
             });
 */
-            socket.on('joined display', (message) => {
-                hideElements();
-                loopState = 'pause'
-                pauseAutoSlide();
-                showPlayerFeedback('play_arrow','Pause');
-                $('#qrcodeModal').modal('hide');
-                if (message.isNewUser) {
-                    $('#popupTutorial').show();
-                }
-            });
 
             function hideElements() {
                 $('#popupTutorial').hide();
+                $('#popupRenew').hide();
                 $('#playerIcon').hide();
                 $('#overlaySwipeDown').hide();
+                $('#popupConTimeOut').hide();
             }
 
             function generateQR(url) {
@@ -232,7 +289,6 @@
                     socket.emit('toggle played');
                     console.log('Played');
                 }
-
             }
 
             function showFeedback(icon,action) {
@@ -335,7 +391,6 @@
             function detailedMode(){
                 keepLastState();
                 countDownautoSlide(5000);
-                
             }
 
             slider = $('#content-slider').lightSlider({
