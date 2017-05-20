@@ -108,12 +108,9 @@
 }
 
 .overlay-footer {
-    width: 1080px;
-    height: 70px;
     position: absolute;
-    bottom: 0px;
+    bottom: 7px;
     z-index:2;
-    background-color: #ffffff;
 }
 
 .overlay-qr {
@@ -129,8 +126,8 @@
 
 #qrcode {
     position: absolute;
-    bottom: 30px;
-    right:100px;
+    bottom: 110px;
+    right:62px;
     z-index:3;
 }
 

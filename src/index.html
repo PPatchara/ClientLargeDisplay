@@ -116,6 +116,14 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            <div class="overlay-footer">
+                <img src="img/footer.png">
+                <div id="qrcode"></div>
+            </div>
+        </div>
+    </div>
+<!--     <div class="row">
+        <div class="col-md-12">
             <div id="overlayInstruc" class="overlay-footer">
             </div>
         </div>
@@ -129,7 +137,7 @@
             </div>
         </div>
     </div>
-    
+     -->
 <!--     <div class="row">    
         <div id="qrcodeModal" class="modal fade" data-backdrop="false">
           <div class="modal-dialog" role="document">
@@ -150,7 +158,8 @@
     <script src="socket/socket.io.js"></script>
 
     <script>
-        var socket = io('http://10.50.8.14:3000');
+        var socket = io('http://172.20.10.2:3000');
+//        var socket = io('http://10.50.8.14:3000');
         var connected = false;
 
         var slider, currentId,category,tag;
@@ -181,7 +190,8 @@
             });
 
             socket.on('Generate Key', (key) => {
-                var url = `http://10.50.8.14:3000/${key}`;
+                var url = `http://172.20.10.2:3000/${key}`;
+//                var url = `http://10.50.8.14:3000/${key}`;
                 console.log(url);
                 generateQR(url);
             });
