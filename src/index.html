@@ -79,8 +79,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="popupTutorial" class="tutorial">
-                    <h1 style="color: #ffffff;">Let's play with us</h1>
-                    <img src="img/tutorial.png">
+                    <i class="material-icons md-128" style="color: #ffffff;">perm_device_information</i>
+                    <h3 style="color: #ffffff;">Learn how to use on your phone</h3>
+<!--                     <img src="img/tutorial.png"> -->
                 </div>
             </div>
         </div>
@@ -98,7 +99,7 @@
                 <div id="popupRenew" class="feedback">
                     <h3>Renew Code</h3>
                     <h1 id="renewCode"></h1>
-                    <p>Renew code will expire in 30 seconds.</p>
+                    <p>Renew code will be expired in 30 seconds.</p>
                     <h4>Please enter the renew code into the smartphone to renew your connection.</h4>
                 </div>
             </div>
@@ -165,7 +166,7 @@
 
         var slider, currentId,category;
         var currentState = 1;
-        var timerSlide,timerFeedback = 0, timerPlayer = 0;
+        var timerSlide,timerFeedback,timerPlayer,timerTimeout = 0;
         var loopState = 'play';
         var qrcode = new QRCode(document.getElementById("qrcode"), {
             width : 120,
@@ -196,7 +197,7 @@
                 $('#instruction').text(`Connect@ http://10.50.8.14:3000/${key} OR Scan this QR Code`);
 //                $('#instruction').text(`Connect@ http://172.20.10.2:3000/${key} OR Scan this QR Code`);
                 $('#footer').show();
-                hideElements();
+                playAutoSlide();
                 console.log(url);
                 generateQR(url);
             });
@@ -218,6 +219,7 @@
                 if (status == 'inactive') {
                     hideElements();
                     $('#popupConTimeOut').show();
+                    countDownTimeout(2000);
                 }else if (status == 'timeout') {
                     $('#popupConTimeOut').hide();
                 }
@@ -321,6 +323,11 @@
                 timerPlayer = setTimeout(hidePlayerFeedback, time);
             }
 
+            function countDownTimeout(time) {
+                resetTimer(timerTimeout);
+                timerTimeout = setTimeout(hideTimeout, time);
+            }
+
 
             function countDownfeedBack(time) {
                 resetTimer(timerFeedback);
@@ -329,6 +336,10 @@
 
             function hidePlayerFeedback(){
                 $('#playerIcon').hide();
+            }
+
+            function hideTimeout(){
+                $('#popupConTimeOut').hide();
             }
 
             function hideFeedback(){
