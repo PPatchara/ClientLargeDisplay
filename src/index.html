@@ -116,8 +116,9 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="overlay-footer">
+            <div id="footer" class="overlay-footer">
                 <img src="img/footer.png">
+                <h3 id="instruction"></h3>
                 <div id="qrcode"></div>
             </div>
         </div>
@@ -158,13 +159,13 @@
     <script src="socket/socket.io.js"></script>
 
     <script>
-        var socket = io('http://172.20.10.2:3000');
-//        var socket = io('http://10.50.8.14:3000');
+//        var socket = io('http://172.20.10.2:3000');
+        var socket = io('http://10.50.8.14:3000');
         var connected = false;
 
-        var slider, currentId,category,tag;
+        var slider, currentId,category;
         var currentState = 1;
-        var timerSlide,timerFeedback = 0;
+        var timerSlide,timerFeedback = 0, timerPlayer = 0;
         var loopState = 'play';
         var qrcode = new QRCode(document.getElementById("qrcode"), {
             width : 120,
@@ -183,15 +184,19 @@
                 loopState = 'pause'
                 pauseAutoSlide();
                 showPlayerFeedback('play_arrow','Pause');
-                $('#qrcodeModal').modal('hide');
+                $('#footer').hide();
                 if (message.isNewUser) {
                     $('#popupTutorial').show();
                 }
             });
 
             socket.on('Generate Key', (key) => {
-                var url = `http://172.20.10.2:3000/${key}`;
-//                var url = `http://10.50.8.14:3000/${key}`;
+                var url = `http://10.50.8.14:3000/${key}`;
+//                var url = `http://172.20.10.2:3000/${key}`; 
+                $('#instruction').text(`Connect@ http://10.50.8.14:3000/${key} OR Scan this QR Code`);
+//                $('#instruction').text(`Connect@ http://172.20.10.2:3000/${key} OR Scan this QR Code`);
+                $('#footer').show();
+                hideElements();
                 console.log(url);
                 generateQR(url);
             });
@@ -213,6 +218,8 @@
                 if (status == 'inactive') {
                     hideElements();
                     $('#popupConTimeOut').show();
+                }else if (status == 'timeout') {
+                    $('#popupConTimeOut').hide();
                 }
             });
 
@@ -242,7 +249,7 @@
             });
             socket.on('gesture swipeup', (gesture) => {
                 log('Gesture', gesture);
-                showFeedback('perm_device_information','Read more details on your mobile device.');
+//                showFeedback('perm_device_information','Read more details on your mobile device.');
                 detailedMode();
                 $('#overlaySwipeDown').show();
             });
@@ -271,15 +278,6 @@
                 log('Bookmark', state);
                 showFeedback('bookmark_border','Unbookmarked');
             });
-            socket.on('share', (state) => {
-                log('Share', state);
-                showFeedback('share','Shared');
-            });
-/*            socket.on('calendar', (state) => {
-                log('Share', state);
-                showFeedback('event_note','Add to calendar');
-            });
-*/
 
             function hideElements() {
                 $('#popupTutorial').hide();
@@ -319,8 +317,8 @@
             }
 
             function countDownPlayerFeedback(time) {
-                resetTimer(timerFeedback);
-                timerFeedback = setTimeout(hidePlayerFeedback, time);
+                resetTimer(timerPlayer);
+                timerPlayer = setTimeout(hidePlayerFeedback, time);
             }
 
 
@@ -337,12 +335,12 @@
                 $('#feedbackModal').modal('hide');
             }
 
-            function showTag(element) {
+/*            function showTag(element) {
                 let category = getCurrentSlide(element).find('img').data('category');
                 $('#tag').text(category);
                 console.log(category);
             }
-            
+*/            
             $('#next').on('click', function (e) {
                 slider.goToNextSlide();
             })
@@ -426,14 +424,14 @@
                     log('CurrentId-load', currentId);
                     socket.emit('largescreen state', currentId, loopState);
 
-                    showTag(element);
+//                    showTag(element);
                 },
                 onAfterSlide: function (element) {
                     currentId = getCurrentEvent(element);
                     log('CurrentId-after', currentId);
                     socket.emit('largescreen state', currentId, loopState);
                     
-                    showTag(element);
+//                    showTag(element);
                 }
             });
         });
