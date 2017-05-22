@@ -105,9 +105,10 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div id="popupTutorial" class="tutorial">
-                    <i class="material-icons md-128" style="color: #ffffff;">perm_device_information</i>
-                    <h3 style="color: #ffffff;">Learn how to use on your phone</h3>
+                <div id="popupTutorial" class="feedback">
+                    <h2>Let's control me!</h2>
+                    <i class="material-icons md-64">perm_device_information</i>
+                    <h3>Learn how to use on your phone</h3>
 <!--                     <img src="img/tutorial.png"> -->
                 </div>
             </div>
@@ -151,22 +152,7 @@
             </div>
         </div>
     </div>
-<!--     <div class="row">
-        <div class="col-md-12">
-            <div id="overlayInstruc" class="overlay-footer">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div id="overlayQR" class="overlay-qr">
-                <h3>SCAN ME</h3>
-                <p>to control</p>
-                <div id="qrcode"></div>
-            </div>
-        </div>
-    </div>
-     -->
+
 <!--     <div class="row">    
         <div id="qrcodeModal" class="modal fade" data-backdrop="false">
           <div class="modal-dialog" role="document">
@@ -196,8 +182,8 @@
         var timerSlide,timerFeedback,timerPlayer,timerTimeout = 0;
         var loopState = 'play';
         var qrcode = new QRCode(document.getElementById("qrcode"), {
-            width : 120,
-            height : 120,
+            width : 100,
+            height : 100,
             correctLevel : QRCode.CorrectLevel.H
         });
 

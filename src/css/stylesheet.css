@@ -16,15 +16,12 @@
     padding: 70px 0;
 }*/
 
+/* Full Screen */
+
 .demo {
     z-index: 1;
 }
-.actions {
-    position: absolute;
-    top:-1800px;
-    left:980px;
-    z-index:2;
-}
+
 /*With tag*/
 /*.actions {
     position: absolute;
@@ -32,34 +29,49 @@
     right:20px;
     z-index:2;
 }*/
+
 .tag {
     position: absolute;
     top:-1800px;
     left:0px;
     z-index:2;
 }
+
 .play-pause {
     position: absolute;
-    top:-1250px;
+    top:-1260px;
     left:470px;
     z-index:2;
 }
-.tutorial {
+
+
+.actions {
     position: absolute;
-    top:-1500px;
-    left:180px;
+    top:-1850px;
+    left:960px;
+    z-index:2;
+}
+
+/*.tutorial {
+    width: 450px;
+    height: 220px;
+    position: absolute;
+    top:-1300px;
+    left:340px;
     z-index:2;
     background-color: rgba(0, 0, 0, 0.9);
     padding: 10px;
     border-radius: 20px;
     text-align: center;
-}
+    color: #ffffff;
+}*/
+
 .feedback {
     width: 450px;
     height: 220px;
     position: absolute;
-    top:-1500px;
-    left:180px;
+    top:-1300px;
+    left:320px;
     z-index:2;
     background-color: rgba(0, 0, 0, 0.7);
     padding: 10px;
@@ -67,6 +79,7 @@
     text-align: center;
     color: #ffffff;
 }
+
 .overlay {
     width: 1080px;
     height: 70px;
@@ -82,6 +95,7 @@
     width: 1080px; 
     height: 1920px;
 }
+
 #renewCode {
     background-color: rgba(0, 0, 0, 0.8);
     color: #007aff;
@@ -110,25 +124,14 @@
 .overlay-footer {
     position: absolute;
     bottom: 7px;
-    left: 195px;
+    left: 15px;
     z-index:2;
 }
 
-/*.overlay-qr {
-    width: 250px;
-    height: 250px;
-    position: absolute;
-    bottom: 0px;
-    right:150px;
-    z-index:2;
-    background-color: #ffffff;
-    border-radius: 80px 0px 0px 0px;
-}*/
-
 #qrcode {
     position: absolute;
-    bottom: 110px;
-    right:62px;
+    bottom: 80px;
+    right: 55px;
     z-index:3;
 }
 
@@ -136,11 +139,9 @@
     color: #ffffff;
     position: absolute;
     bottom: 20px;
-    left: 160px;
+    left: 200px;
     z-index:3;
 }
-
-
 
 /* Font icons*/
 .material-icons.active { 
@@ -155,3 +156,58 @@
 .material-icons.white{ 
     color: #ffffff; 
 }
+
+/* Minimize */
+/*.slide-img {
+    width: 1080px; 
+    height: 1760px;
+}
+
+.actions {
+    position: absolute;
+    top:-1650px;
+    left:960px;
+    z-index:2;
+}
+
+.tutorial {
+    position: absolute;
+    top:-1200px;
+    left:350px;
+    z-index:2;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.feedback {
+    width: 450px;
+    height: 220px;
+    position: absolute;
+    top:-1250px;
+    left:320px;
+    z-index:2;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.overlay {
+    width: 1080px;
+    height: 70px;
+    position: absolute;
+    top: -1765px;
+    left: 0px;
+    z-index:2;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+}
+
+#renewCode {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #007aff;
+}*/
+
