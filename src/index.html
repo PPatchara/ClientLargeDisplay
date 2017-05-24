@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head>
     <meta charset="utf-8">
-    <title>Pokie</title>
+    <title>TheSeeker</title>
 
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
@@ -18,49 +18,49 @@
         <div class="item">
             <ul id="content-slider" class="content-slider">
                 <li data-id="#001">
-                    <img data-category="Competition" src="img/1.jpg" class="slide-img">
+                    <img data-category="แอ็คชัน" src="img/1.jpg" class="slide-img">
                 </li>
                 <li data-id="#002">
-                    <img data-category="Competition" src="img/2.jpg" class="slide-img">
+                    <img data-category="ตลก" src="img/2.jpg" class="slide-img">
                 </li>
                 <li data-id="#003">
-                    <img data-category="Competition" src="img/3.jpg" class="slide-img">
+                    <img data-category="ตลก" src="img/3.jpg" class="slide-img">
                 </li>
                 <li data-id="#004">
-                    <img data-category="Competition" src="img/4.jpg" class="slide-img">
+                    <img data-category="ชีวิต" src="img/4.jpg" class="slide-img">
                 </li>
                 <li data-id="#005">
-                    <img data-category="Entertainment" src="img/5.jpg" class="slide-img">
+                    <img data-category="ผจญภัย / แฟนตาซี" src="img/5.jpg" class="slide-img">
                 </li>
                 <li data-id="#006">
-                    <img data-category="Job / Internship" src="img/6.jpg" class="slide-img">
+                    <img data-category="แอนิเมชัน" src="img/6.jpg" class="slide-img">
                 </li>
                 <li data-id="#007">
-                    <img data-category="Keynote Talk" src="img/7.jpg" class="slide-img">
+                    <img data-category="แอ็คชัน" src="img/7.jpg" class="slide-img">
                 </li>
                 <li data-id="#008">
-                    <img data-category="Camp" src="img/8.jpg" class="slide-img">
+                    <img data-category="แอ็คชัน / แฟนตาซี" src="img/8.jpg" class="slide-img">
                 </li>
                 <li data-id="#009">
-                    <img data-category="Entertainment" src="img/9.jpg" class="slide-img">
+                    <img data-category="ชีวิต" src="img/9.jpg" class="slide-img">
                 </li>
                 <li data-id="#010">
-                    <img data-category="Competition" src="img/10.jpg" class="slide-img">
+                    <img data-category="แอนิเมชัน" src="img/10.jpg" class="slide-img">
                 </li>
                 <li data-id="#011">
-                    <img data-category="Competition" src="img/11.jpg" class="slide-img">
+                    <img data-category="แอ็คชัน / แฟนตาซี" src="img/11.jpg" class="slide-img">
                 </li>
                 <li data-id="#012">
-                    <img data-category="Competition" src="img/12.jpg" class="slide-img">
+                    <img data-category="วิทยาศาสตร์" src="img/12.jpg" class="slide-img">
                 </li>
                 <li data-id="#013">
-                    <img data-category="Competition" src="img/13.jpg" class="slide-img">
+                    <img data-category="แอ็คชัน / ระทึกขวัญ" src="img/13.jpg" class="slide-img">
                 </li>
                 <li data-id="#014">
-                    <img data-category="Competition" src="img/14.jpg" class="slide-img">
+                    <img data-category="แอนิเมชัน" src="img/14.jpg" class="slide-img">
                 </li>
                 <li data-id="#015">
-                    <img data-category="Competition" src="img/15.jpg" class="slide-img">
+                    <img data-category="แอ็คชัน / ระทึกขวัญ" src="img/15.jpg" class="slide-img">
                 </li>
             </ul>
         </div>
@@ -210,6 +210,7 @@
                 $('#instruction').text(`Connect@ http://10.50.8.14:3000/${key} OR Scan this QR Code`);
 //                $('#instruction').text(`Connect@ http://172.20.10.2:3000/${key} OR Scan this QR Code`);
                 $('#footer').show();
+                hideElements();
                 playAutoSlide();
                 console.log(url);
                 generateQR(url);
