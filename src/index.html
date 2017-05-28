@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/lightslider.css">
+    <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="/material/fonts/material-icons.css">
     <link rel="stylesheet" href="css/stylesheet.css">
 
@@ -109,7 +110,6 @@
                     <h2>Let's control me!</h2>
                     <i class="material-icons md-64">perm_device_information</i>
                     <h3>Learn how to use on your phone</h3>
-<!--                     <img src="img/tutorial.png"> -->
                 </div>
             </div>
         </div>
@@ -160,18 +160,6 @@
         </div>
     </div>
 
-<!--     <div class="row">    
-        <div id="qrcodeModal" class="modal fade" data-backdrop="false">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-body">
-                <div id="qrcode"></div>
-              </div>
-            </div>
-          </div>
-        </div> 
-    </div> -->
-
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/lightslider.min.js"></script>
@@ -181,13 +169,13 @@
 
     <script>
 //        var socket = io('http://172.20.10.2:3000');
-//        var socket = io('http://10.50.8.14:3000');
-        var socket = io('http://161.246.38.120:3000');
+        var socket = io('http://10.50.8.14:3000');
+//        var socket = io('http://161.246.38.120:3000');
         var connected = false;
 
         var slider, currentId,category;
         var currentState = 1;
-        var timerSlide,timerFeedback,timerPlayer,timerTimeout = 0;
+        var animateTimer,timerSlide,timerFeedback,timerPlayer,timerTimeout = 0;
         var loopState = 'play';
         var qrcode = new QRCode(document.getElementById("qrcode"), {
             width : 75,
@@ -204,6 +192,7 @@
             
             socket.on('joined display', (message) => {
                 loopState = 'pause'
+                clearInterval(animateTimer);
                 pauseAutoSlide();
                 showPlayerFeedback('play_arrow','Pause');
                 $('#footer').hide();
@@ -214,14 +203,26 @@
             });
 
             socket.on('Generate Key', (key) => {
-//                var url = `http://10.50.8.14:3000/${key}`;
 //                var url = `http://172.20.10.2:3000/${key}`; 
-                var url = `http://161.246.38.120:3000/${key}`; 
-                $('#instruction').text(`ควบคุมหน้าจอ ง่ายๆเพียง พิมพ์: http://161.246.38.120:3000/${key} หรือ สแกน QR Code`); 
-//                $('#instruction').text(`ควบคุมหน้าจอ ง่ายๆเพียง พิมพ์: http://10.50.8.14:3000/${key} หรือ สแกน QR Code`);
-//                $('#instruction').text(`ควบคุมหน้าจอ ง่ายๆเพียง พิมพ์: http://172.20.10.2:3000/${key} หรือ สแกน QR Code`);
+                var url = `http://theseeker.it.kmitl.ac.th:3000/${key}`;
+//                var url = `http://161.246.38.120:3000/${key}`; 
+
+/*                $('#instruction').html(`ควบคุมหน้าจอ ง่ายๆเพียง พิมพ์: 
+                                        <b style="font-size:30px;">http://172.20.10.2:3000/${key}</b>
+                                        <br>หรือ สแกน QR Code`);
+*/
+/*                $('#instruction').html(`ควบคุมหน้าจอ ง่ายๆเพียง พิมพ์: 
+                                        <b style="font-size:30px;">http://10.50.8.14:3000/${key}</b>
+                                        <br>หรือ สแกน QR Code`);
+*/
+                $('#instruction').html(`ควบคุมหน้าจอ ง่ายๆเพียง พิมพ์: 
+                                        <b style="font-size:30px;">http://theseeker.it.kmitl.ac.th:3000/${key}</b>
+                                        <br>หรือ สแกน QR Code`);
+
+
                 $('#footer').show();
                 $('#qrPopup').show();
+                animateQRPopup();
                 hideElements();
                 playAutoSlide();
                 console.log(url);
@@ -306,6 +307,17 @@
                 log('Bookmark', state);
                 showFeedback('bookmark_border','Unbookmarked');
             });
+
+            function animateQRPopup() {
+                var animateTimer = setInterval(pulse, 10000);
+            }
+
+            function pulse() {
+                $('#qrPopup').addClass('animated pulse');
+                setTimeout(() => {
+                    $('#qrPopup').removeClass('animated pulse');
+                }, 2500);
+            }
 
             function hideElements() {
                 $('#popupTutorial').hide();
