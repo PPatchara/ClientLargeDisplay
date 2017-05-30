@@ -273,6 +273,7 @@
             });
             socket.on('gesture swipedown', (gesture) => {
                 log('Gesture', gesture);
+                playAutoSlide();
                 navigate();
                 jumpTo(getLastState());
                 $('#overlaySwipeDown').hide();
@@ -280,7 +281,8 @@
             socket.on('gesture swipeup', (gesture) => {
                 log('Gesture', gesture);
 //                showFeedback('perm_device_information','Read more details on your mobile device.');
-                detailedMode();
+                pauseAutoSlide();
+//                detailedMode();
                 $('#overlaySwipeDown').show();
             });
             socket.on('gesture press', (gesture) => {
@@ -339,7 +341,7 @@
                     $('#playerIcon').text(icon);
                     $('#playerIcon').show();
                     socket.emit('toggle paused');
-                    console.log('Paused');
+                    console.log('Paused'); 
                 } else if (action == 'Play') {
                     $('#playerIcon').text(icon);
                     $('#playerIcon').show();
