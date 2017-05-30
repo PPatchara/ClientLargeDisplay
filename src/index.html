@@ -281,8 +281,7 @@
             socket.on('gesture swipeup', (gesture) => {
                 log('Gesture', gesture);
 //                showFeedback('perm_device_information','Read more details on your mobile device.');
-                pauseAutoSlide();
-//                detailedMode();
+                detailedMode();
                 $('#overlaySwipeDown').show();
             });
             socket.on('gesture press', (gesture) => {
