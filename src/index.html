@@ -146,7 +146,8 @@
     <div class="row">
         <div class="col-md-12">
             <div id="footer" class="overlay-footer">
-                <img src="img/footer.png">
+<!--                 <img src="img/footer.png"> -->
+                <p id="key"></p>
                 <p id="instruction"></p>
             </div>
         </div>
@@ -168,7 +169,7 @@
     <script src="socket/socket.io.js"></script>
 
     <script>
-        var socket = io('http://theseeker.it.kmitl.ac.th:3000');
+        var socket = io('http://kiosk.hopto.me/');
 //        var socket = io('http://172.20.10.2:3000');
 //        var socket = io('http://10.50.8.14:3000');
 //        var socket = io('http://161.246.38.120:3000');
@@ -205,7 +206,7 @@
 
             socket.on('Generate Key', (key) => {
 //                var url = `http://172.20.10.2:3000/${key}`; 
-                var url = `http://theseeker.it.kmitl.ac.th:3000/${key}`;
+                var url = `http://kiosk.hopto.me/${key}`;
 //                var url = `http://161.246.38.120:3000/${key}`; 
 //                var url = `http://10.50.8.14:3000${key}`; 
 
@@ -217,8 +218,12 @@
                                         <b style="font-size:30px;">http://10.50.8.14:3000/${key}</b>
                                         <br>หรือ สแกน QR Code`);
 */
+
+                $('#key').html(`Access Code<br>
+                                <b style="font-size:36px;">${key}</b>`);
+
                 $('#instruction').html(`ควบคุมหน้าจอ ง่ายๆเพียง พิมพ์: 
-                                        <b style="font-size:30px;">http://theseeker.it.kmitl.ac.th:3000/${key}</b>
+                                        <b style="font-size:30px;">http://kiosk.hopto.me/${key}</b>
                                         <br>หรือ สแกน QR Code`);
 
 

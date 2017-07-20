@@ -74,7 +74,8 @@
 
 .slide-img {
     width: 1080px; 
-    height: 1920px;
+    height: 1930px; /* 1920 */
+    z-index: 2;
 }
 
 /*.slide-img {
@@ -108,8 +109,11 @@
 }
 
 .overlay-footer {
+    width: 1080px;
+    height: 100px;
+    background-color: #eaa400;
     position: absolute;
-    bottom: -10px;
+    bottom: 4px; /* -5 */
     left: 15px;
     z-index:2;
 }
@@ -135,10 +139,18 @@
     z-index:3;
 }*/
 
-#instruction {
+#key {
     font-size: 26px; 
     position: absolute;
     bottom: -5px;
+    left: 10px;
+    z-index:3;
+}
+
+#instruction {
+    font-size: 26px; 
+    position: absolute;
+    bottom: -2px;
     right: 10px;
     z-index:3;
 }
