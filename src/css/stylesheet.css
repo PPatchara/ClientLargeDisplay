@@ -65,8 +65,10 @@
     width: 1080px;
     height: 70px;
     position: absolute;
-    top: -1922px;
+    bottom: 4px;
     left: 0px;
+/*    top: -1922px;
+    left: 0px;*/
     z-index:2;
     background-color: rgba(0, 0, 0, 0.4);
     padding: 10px;
@@ -110,7 +112,7 @@
 
 .overlay-footer {
     width: 1080px;
-    height: 100px;
+    height: 90px;
     background-color: #eaa400;
     position: absolute;
     bottom: 4px; /* -5 */
@@ -148,7 +150,7 @@
 }
 
 #instruction {
-    font-size: 26px; 
+    font-size: 24px; 
     position: absolute;
     bottom: -2px;
     right: 10px;

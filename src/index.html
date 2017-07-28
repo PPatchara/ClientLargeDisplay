@@ -115,9 +115,18 @@
         </div>
         <div class="row">
             <div class="col-md-12">
+                <div id="overlaySwipeUp" class="overlay">
+                    <div>
+                        <img src="img/swipeUp.png"><span style="font-size: 28px; color: #03a9f4;">&nbsp;&nbsp;&nbsp;&nbsp;Swipe down </span><span style="font-size: 28px; color: #ffffff;">to return to action</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
                 <div id="overlaySwipeDown" class="overlay">
                     <div>
-                        <img src="img/swipeDown.png"><span style="font-size: 28px; color: #ffffff;">&nbsp;&nbsp;&nbsp;&nbsp;Swipe down to return to action</span>
+                        <img src="img/swipeDown.png"><span style="font-size: 28px; color: #ffcc00;">&nbsp;&nbsp;&nbsp;&nbsp;Swipe up </span><span style="font-size: 28px; color: #ffffff;">to view more details</span>
                     </div>
                 </div>
             </div>
@@ -169,7 +178,8 @@
     <script src="socket/socket.io.js"></script>
 
     <script>
-        var socket = io('http://kiosk.hopto.me/');
+//        var socket = io('http://kiosk.hopto.me/');
+        var socket = io('http://192.168.0.175:3000');
 //        var socket = io('http://172.20.10.2:3000');
 //        var socket = io('http://10.50.8.14:3000');
 //        var socket = io('http://161.246.38.120:3000');
@@ -199,6 +209,7 @@
                 showPlayerFeedback('play_arrow','Pause');
                 $('#footer').hide();
                 $('#qrPopup').hide();
+                $('#overlaySwipeUp').show();
                 if (message.isNewUser) {
                     $('#popupTutorial').show();
                 }
@@ -219,12 +230,13 @@
                                         <br>หรือ สแกน QR Code`);
 */
 
-                $('#key').html(`Access Code<br>
+/*                $('#key').html(`Access Code<br>
                                 <b style="font-size:36px;">${key}</b>`);
+*/
 
-                $('#instruction').html(`ควบคุมหน้าจอ ง่ายๆเพียง พิมพ์: 
-                                        <b style="font-size:30px;">http://kiosk.hopto.me/${key}</b>
-                                        <br>หรือ สแกน QR Code`);
+                $('#instruction').html(`ควบคุมหน้าจอได้ ผ่านเว็บ: 
+                                        <b style="font-size:28px;">http://kiosk.hopto.me/${key}</b>
+                                        <br>หรือ สแกน <b>QR Code</b>`);
 
 
                 $('#footer').show();
@@ -283,12 +295,14 @@
                 navigate();
                 jumpTo(getLastState());
                 $('#overlaySwipeDown').hide();
+                $('#overlaySwipeUp').show();
             });
             socket.on('gesture swipeup', (gesture) => {
                 log('Gesture', gesture);
 //                showFeedback('perm_device_information','Read more details on your mobile device.');
                 detailedMode();
                 $('#overlaySwipeDown').show();
+                $('#overlaySwipeUp').hide();
             });
             socket.on('gesture press', (gesture) => {
                 log('Gesture', gesture);
@@ -332,6 +346,7 @@
                 $('#popupRenew').hide();
                 $('#playerIcon').hide();
                 $('#overlaySwipeDown').hide();
+                $('#overlaySwipeUp').hide();
                 $('#popupConTimeOut').hide();
             }
 
