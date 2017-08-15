@@ -1,5 +1,13 @@
 /* Full Screen */
 
+body {
+    overflow: hidden;
+}
+
+li {
+    width: 1080px;
+}
+
 .demo {
     z-index: 1;
 }
@@ -76,7 +84,7 @@
 
 .slide-img {
     width: 1080px; 
-    height: 1930px; /* 1920 */
+    height: 1920px; 
     z-index: 2;
 }
 
@@ -115,7 +123,7 @@
     height: 90px;
     background-color: #eaa400;
     position: absolute;
-    bottom: 4px; /* -5 */
+    bottom: 0px;
     left: 15px;
     z-index:2;
 }

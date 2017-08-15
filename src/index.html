@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/lightslider.css">
     <link rel="stylesheet" href="css/animate.css">
-    <link rel="stylesheet" href="/material/fonts/material-icons.css">
+    <link rel="stylesheet" href="material/fonts/material-icons.css">
     <link rel="stylesheet" href="css/stylesheet.css">
 
 </head>
@@ -117,7 +117,7 @@
             <div class="col-md-12">
                 <div id="overlaySwipeUp" class="overlay">
                     <div>
-                        <img src="img/swipeUp.png"><span style="font-size: 28px; color: #03a9f4;">&nbsp;&nbsp;&nbsp;&nbsp;Swipe down </span><span style="font-size: 28px; color: #ffffff;">to return to action</span>
+                        <img src="img/swipeUp.png"><span style="font-size: 28px; color: #03a9f4;">&nbsp;&nbsp;&nbsp;&nbsp;Swipe up </span><span style="font-size: 28px; color: #ffffff;">to view more details</span>
                     </div>
                 </div>
             </div>
@@ -126,7 +126,7 @@
             <div class="col-md-12">
                 <div id="overlaySwipeDown" class="overlay">
                     <div>
-                        <img src="img/swipeDown.png"><span style="font-size: 28px; color: #ffcc00;">&nbsp;&nbsp;&nbsp;&nbsp;Swipe up </span><span style="font-size: 28px; color: #ffffff;">to view more details</span>
+                        <img src="img/swipeDown.png"><span style="font-size: 28px; color: #ffcc00;">&nbsp;&nbsp;&nbsp;&nbsp;Swipe down </span><span style="font-size: 28px; color: #ffffff;">to return to control</span>
                     </div>
                 </div>
             </div>
@@ -170,7 +170,7 @@
         </div>
     </div>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/lightslider.min.js"></script>
     <script src="js/qrcode.min.js"></script>
@@ -206,10 +206,10 @@
                 loopState = 'pause'
                 clearInterval(animateTimer);
                 pauseAutoSlide();
-                showPlayerFeedback('play_arrow','Pause');
+                //showPlayerFeedback('play_arrow','Pause');
                 $('#footer').hide();
                 $('#qrPopup').hide();
-                $('#overlaySwipeUp').show();
+                //$('#overlaySwipeUp').show();
                 if (message.isNewUser) {
                     $('#popupTutorial').show();
                 }
@@ -220,15 +220,6 @@
                 var url = `http://kiosk.hopto.me/${key}`;
 //                var url = `http://161.246.38.120:3000/${key}`; 
 //                var url = `http://10.50.8.14:3000${key}`; 
-
-/*                $('#instruction').html(`ควบคุมหน้าจอ ง่ายๆเพียง พิมพ์: 
-                                        <b style="font-size:30px;">http://172.20.10.2:3000/${key}</b>
-                                        <br>หรือ สแกน QR Code`);
-*/
-/*                $('#instruction').html(`ควบคุมหน้าจอ ง่ายๆเพียง พิมพ์: 
-                                        <b style="font-size:30px;">http://10.50.8.14:3000/${key}</b>
-                                        <br>หรือ สแกน QR Code`);
-*/
 
 /*                $('#key').html(`Access Code<br>
                                 <b style="font-size:36px;">${key}</b>`);
@@ -279,17 +270,17 @@
 
             socket.on('gesture swipeleft', (gesture) => {
                 log('Gesture', gesture);
-                navigate();
+                //navigate();
                 changeStateNext();
-                $('#playerIcon').hide();
+                hidePlayerFeedback();
             });
             socket.on('gesture swiperight', (gesture) => {
                 log('Gesture', gesture);
-                navigate();
+                //navigate();
                 changeStatePrev();
-                $('#playerIcon').hide();
+                hidePlayerFeedback();
             });
-            socket.on('gesture swipedown', (gesture) => {
+/*            socket.on('gesture swipedown', (gesture) => {
                 log('Gesture', gesture);
                 playAutoSlide();
                 navigate();
@@ -299,7 +290,6 @@
             });
             socket.on('gesture swipeup', (gesture) => {
                 log('Gesture', gesture);
-//                showFeedback('perm_device_information','Read more details on your mobile device.');
                 detailedMode();
                 $('#overlaySwipeDown').show();
                 $('#overlaySwipeUp').hide();
@@ -320,7 +310,7 @@
                 loopState = 'pause';
                 pauseAutoSlide();
                 showPlayerFeedback('play_arrow','Pause');
-            });
+            }); */
             socket.on('bookmarked', (state) => {
                 log('Bookmark', state);
                 showFeedback('bookmark','Bookmarked');
@@ -344,7 +334,7 @@
             function hideElements() {
                 $('#popupTutorial').hide();
                 $('#popupRenew').hide();
-                $('#playerIcon').hide();
+                hidePlayerFeedback();
                 $('#overlaySwipeDown').hide();
                 $('#overlaySwipeUp').hide();
                 $('#popupConTimeOut').hide();
